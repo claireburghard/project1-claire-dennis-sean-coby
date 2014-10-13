@@ -25,9 +25,10 @@ def search(question):
 def whosearch(question):
         text = search(question)
         names = re.findall("[A-Z][a-z]+\s[A-Z][a-z]+", text)
-        it = iter(makeDictWithCount(names))
+        nameDict = makeDictWithCount(names)
+        it = iter(nameDict)
         listOfResults = []
-        for x in range(0,5):
+        for x in range(0,min(5,len(nameDict)-1)):
                 listOfResults.append(it.next())
         return listOfResults
         
@@ -36,9 +37,10 @@ def whensearch(question):
         text = search(question)
         dates = re.findall("[A-Z][a-z]+\s[0-9]+", text)
         dates = [x for x in dates if check(x)]
+        dateDict = makeDictWithCount(dates)
         it = iter(makeDictWithCount(dates))
         listOfResults = []
-        for x in range(0,5):
+        for x in range(0,min(5,len(dateDict)-1)):
                 listOfResults.append(it.next())
         return listOfResults
         #return max(makeDictWithCount(dates).iteritems(), key=operator.itemgetter(1))[0]
@@ -72,8 +74,3 @@ def read_urls(urls):
 	for page in html_text:
 		text.append(BeautifulSoup(page).get_text().replace("\n"," "))
 	return text
-
-if __name__ == "__main__":
-	whosearch("Who plays Spiderman?")
-
-
