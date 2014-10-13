@@ -1,5 +1,38 @@
 from bs4 import BeautifulSoup
+import json
+import urllib
 from urllib import urlopen
+
+
+def whosearch(question):
+        query = urllib.urlencode({'q': question})
+        url = 'http://ajax.googleapis.com/ajax/services/search/web?v=1.0&%s' % query
+        search_response = urllib.urlopen(url)
+        search_results = search_response.read()
+        results = json.loads(search_results)
+        data = results['responseData']
+        hits = data['results']
+        pages = []
+        for h in hits: pages.append(h['url'])
+        #print pages
+        text = read_urls(pages)
+        print text
+        #NOW WE NEED THE OP TO FIND THE MOST COMMON NAME OR WHATEVER
+
+def whensearch(question):
+        query = urllib.urlencode({'q': question})
+        url = 'http://ajax.googleapis.com/ajax/services/search/web?v=1.0&%s' % query
+        search_response = urllib.urlopen(url)
+        search_results = search_response.read()
+        results = json.loads(search_results)
+        data = results['responseData']
+        hits = data['results']
+        pages = []
+        for h in hits: pages.append(h['url'])
+        #print pages
+        text = read_urls(pages)
+        print text
+        #NOW WE NEED THE OP TO FIND THE MOST COMMON DATE OR WHATEVER
 
 def read_urls(urls):
 	html_text = []
@@ -9,10 +42,9 @@ def read_urls(urls):
 		u.close()
 	text = []
 	for page in html_text:
-		text.append(BeautifulSoup(page).get_text())
+		text.append(BeautifulSoup(page).get_text().replace("\n"," "))
 	return text
 
 if __name__ == "__main__":
-	urls = ["http://4c.alfaromeo.com/", "http://www.caranddriver.com/alfa-romeo/4c", "http://en.wikipedia.org/wiki/Alfa_Romeo_4C", "http://www.topgear.com/uk/tags/Alfa-Romeo-4C"]
-	print read_urls(urls)
+	whosearch("Who plays Spiderman?")
 
