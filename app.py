@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, session
 import qcheck
+import text
 
 app=Flask(__name__)
 
@@ -23,7 +24,12 @@ def index():
                 error_message = "Question must begin with who or when"
                 return render_template("home.html", message = message, error_message = error_message)
             else:
-                return render_template("home.html", message = message, error_message = error_message)
+                answer = ""
+                if message = "who":
+                    answer = text.whosearch(question)
+                elif message = "when":
+                    answer = text.whensearch(question)
+                return render_template("home.html", message = answer, error_message = error_message)
 
 if __name__=="__main__":
 
