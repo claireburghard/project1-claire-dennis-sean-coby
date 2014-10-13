@@ -3,6 +3,7 @@ import json
 import urllib
 from urllib import urlopen
 import re
+import operator
 
 def search(question):
         query = urllib.urlencode({'q': question})
@@ -24,23 +25,42 @@ def search(question):
 def whosearch(question):
         text = search(question)
         names = re.findall("[A-Z][a-z]+\s[A-Z][a-z]+", text)
-        #FIND MOST COMMON NAME
+        it = iter(makeDictWithCount(names))
+        listOfResults = []
+        for x in range(0,5):
+                listOfResults.append(it.next())
+        return listOfResults
         
 
 def whensearch(question):
         text = search(question)
         dates = re.findall("[A-Z][a-z]+\s[0-9]+", text)
         dates = [x for x in dates if check(x)]
+        it = iter(makeDictWithCount(dates))
+        listOfResults = []
+        for x in range(0,5):
+                listOfResults.append(it.next())
+        return listOfResults
+        #return max(makeDictWithCount(dates).iteritems(), key=operator.itemgetter(1))[0]
 
 
 #Checks that a date has a valid month
 def check(x):
         month = x.split(' ', 1)[0]
         if month == "January" or month == "February" or month == "March" or month == "April" or month == "May" or month == "June" or month == "July" or month == "August" or month == "September" or month == "October" or month == "November" or month == "December":
-                return true
+                return True
         else:
-                return false
+                return False
 
+def makeDictWithCount(x):
+        countDict = {}
+        for element in x:
+                if element in countDict:
+                        countDict[element] = countDict[element] + 1
+                else:
+                        countDict[element] = 1
+        sorted_countDict = sorted(countDict.items(), key=operator.itemgetter(1), reverse=True)
+        return sorted_countDict
 
 def read_urls(urls):
 	html_text = []
@@ -55,4 +75,5 @@ def read_urls(urls):
 
 if __name__ == "__main__":
 	whosearch("Who plays Spiderman?")
+
 

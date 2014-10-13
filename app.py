@@ -22,15 +22,15 @@ def index():
             if message == "not valid":
                 message = ""
                 error_message = "Question must begin with who or when"
-                return render_template("home.html", message = message, error_message = error_message)
+                return render_template("home.html",results = message, error_message = error_message)
             else:
                 answer = ""
-                if message = "who":
+                if message == "who":
                     answer = text.whosearch(question)
-                elif message = "when":
+                elif message == "when":
                     answer = text.whensearch(question)
-                return render_template("home.html", message = answer, error_message = error_message)
+                return render_template("home.html", results = answer, error_message = error_message)
 
 if __name__=="__main__":
-
+    app.debug = True
     app.run()
