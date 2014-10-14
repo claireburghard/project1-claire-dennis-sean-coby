@@ -34,38 +34,36 @@ def index():
                 global l5
                 if message == "who":
                     answer = text.whosearch(question)
-                    a1 = answer[0]
-                    a2 = answer[1]
-                    a3 = answer[2]
-                    a4 = answer[3]
-                    a5 = answer[4]
-                    links = text.linkssearch(answer)
-                    print links
-                    l1 = links[0]
-                    print "L1: " + l1 
-                    l2 = links[1]
-                    l3 = links[2]
-                    l4 = links[3]
-                    l5 = links[4]
+                    print (answer[0])[0]
+                    a1 = answer[0][0]
+                    a2 = answer[1][0]
+                    a3 = answer[2][0]
+                    a4 = answer[3][0]
+                    a5 = answer[4][0]
+                    l1 =  text.linkssearch(a1)
+                    #print "L1: " + l1 
+                    l2 = text.linkssearch(a2)
+                    l3 =  text.linkssearch(a3)
+                    l4 =  text.linkssearch(a4)
+                    l5 =  text.linkssearch(a5)
                 elif message == "when":
                     answer = text.whensearch(question)
-                    a1 = answer[0]
-                    a2 = answer[1]
-                    a3 = answer[2]
-                    a4 = answer[3]
-                    a5 = answer[4]
-                    links = text.linkssearch(answer)
-                    l1 = links[0]
-                    print l1
-                    l2 = links[1]
-                    l3 = links[2]
-                    l4 = links[3]
-                    l5 = links[4]
+                    a1 = answer[0][0]
+                    a2 = answer[1][0]
+                    a3 = answer[2][0]
+                    a4 = answer[3][0]
+                    a5 = answer[4][0]
+                    l1 =  text.linkssearch(a1)
+                    #print l1
+                    l2 =  text.linkssearch(a2)
+                    l3 =  text.linkssearch(a3)
+                    l4 =  text.linkssearch(a4)
+                    l5 =  text.linkssearch(a5)
                 return render_template("results.html", a1 = a1, a2 = a2, a3 = a3, a4 = a4, a5 = a5)
 
 @app.route("/a1")
 def a1():
-    print l1
+    #print l1
     return redirect(l1)
 
 @app.route("/a2")

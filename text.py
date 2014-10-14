@@ -1,24 +1,10 @@
+from google import search
 from bs4 import BeautifulSoup
 import json
 import urllib
 from urllib import urlopen
 import re
 import operator
-
-def search(question):
-        query = urllib.urlencode({'q': question})
-        url = 'http://ajax.googleapis.com/ajax/services/search/web?v=1.0&%s' % query
-        search_response = urllib.urlopen(url)
-        search_results = search_response.read()
-        results = json.loads(search_results)
-        data = results['responseData']
-        if data is not None:
-            hits = data['results']
-            pages = []
-            for h in hits: pages.append(h['url'])
-            return pages
-            #print pages
-        return ["http://en.wikipedia.org/wiki/Habonim_Dror#Famous_graduates", "http://en.wikipedia.org/wiki/Habonim_Dror#Famous_graduates", "http://en.wikipedia.org/wiki/Habonim_Dror#Famous_graduates", "http://en.wikipedia.org/wiki/Habonim_Dror#Famous_graduates"]
 
 def whosearch(question):
         #stream to read our first names file
@@ -33,12 +19,16 @@ def whosearch(question):
 
         firstList = [] #will be list of first names that we find in our text files
         firstDic = {} #using dictionary for efficiency => constant runtime for finding?
-
-        text = read_urls(search(question))
-        texter = ""
-        for t in text:
-                texter += t
-        names = re.findall("[A-Z][a-z]+\s[A-Z][a-z]+", texter)
+        #print question
+        #creds to team hacky for explaining gsearch
+        g = search(question,num=6,stop=6)
+        text = ""
+        for url in g:
+                print url
+                u = urlopen(url)
+                page = BeautifulSoup(u.read())
+                text += page.get_text().replace("\n"," ")
+        names = re.findall("[A-Z][a-z]+\s[A-Z][a-z]+", text)
 
         firstNames = read1.split() #all first names via our database
         firstDic = dict.fromkeys(firstNames, firstNames)
@@ -60,7 +50,7 @@ def whosearch(question):
 
         fullname = []
    
-        names = re.findall("[A-Z][a-z]+\s[A-Z][a-z]+",texter)
+        names = re.findall("[A-Z][a-z]+\s[A-Z][a-z]+",text)
         for a in names:
                 firstLast = a.split()
                 if firstLast[0] in firstDic and firstLast[1] in surnameDic:
@@ -75,11 +65,13 @@ def whosearch(question):
         
 
 def whensearch(question):
-        text = read_urls(search(question))
-        texter = ""
-        for t in text:
-                texter += t
-        dates = re.findall("[A-Z][a-z]+\s[0-9]+", texter)
+        g = search(question,num=2,stop=2)
+        text = ""
+        for url in g:
+                u = urlopen(url)
+                page = BeautifulSoup(u.read())
+                text += page.get_text().replace("\n"," ")
+        dates = re.findall("[A-Z][a-z]+\s[0-9]+", text)
         dates = [x for x in dates if check(x)]
         dateDict = makeDictWithCount(dates)
         it = iter(makeDictWithCount(dates))
@@ -108,12 +100,10 @@ def makeDictWithCount(x):
         sorted_countDict = sorted(countDict.items(), key=operator.itemgetter(1), reverse=True)
         return sorted_countDict
 
-def linkssearch(answer):
-        links = []
-        for a in answer:
-                possibles = search(a)
-                links.append(possibles[0])
-        return links
+def linkssearch(a):
+        g = search(a,num=2,stop=2)
+        for url in g:
+                return url
 
 def read_urls(urls):
 	html_text = []
