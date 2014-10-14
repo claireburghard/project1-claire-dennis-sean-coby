@@ -12,11 +12,13 @@ def search(question):
         search_results = search_response.read()
         results = json.loads(search_results)
         data = results['responseData']
-        hits = data['results']
-        pages = []
-        for h in hits: pages.append(h['url'])
-        return pages
-        #print pages
+        if data is not None:
+            hits = data['results']
+            pages = []
+            for h in hits: pages.append(h['url'])
+            return pages
+            #print pages
+        return ["http://en.wikipedia.org/wiki/Habonim_Dror#Famous_graduates", "http://en.wikipedia.org/wiki/Habonim_Dror#Famous_graduates", "http://en.wikipedia.org/wiki/Habonim_Dror#Famous_graduates", "http://en.wikipedia.org/wiki/Habonim_Dror#Famous_graduates"]
 
 def whosearch(question):
         #stream to read our first names file
@@ -110,7 +112,7 @@ def linkssearch(answer):
         links = []
         for a in answer:
                 possibles = search(a)
-                links.append(possibles[1])
+                links.append(possibles[0])
         return links
 
 def read_urls(urls):
