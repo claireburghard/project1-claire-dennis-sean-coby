@@ -15,12 +15,8 @@ def search(question):
         hits = data['results']
         pages = []
         for h in hits: pages.append(h['url'])
+        return pages
         #print pages
-        text = read_urls(pages)
-        ret = ""
-        for t in text:
-                ret += t
-        return ret
 
 def whosearch(question):
         #stream to read our first names file
@@ -35,8 +31,12 @@ def whosearch(question):
 
         firstList = [] #will be list of first names that we find in our text files
         firstDic = {} #using dictionary for efficiency => constant runtime for finding?
-        text = search(question)
-        names = re.findall("[A-Z][a-z]+\s[A-Z][a-z]+", text)
+
+        text = read_urls(search(question))
+        texter = ""
+        for t in text:
+                texter += treturn ret
+        names = re.findall("[A-Z][a-z]+\s[A-Z][a-z]+", texter)
 
         firstNames = read1.split() #all first names via our database
         firstDic = dict.fromkeys(firstNames, firstNames)
@@ -58,7 +58,7 @@ def whosearch(question):
 
         fullname = []
    
-        names = re.findall("[A-Z][a-z]+\s[A-Z][a-z]+",text)
+        names = re.findall("[A-Z][a-z]+\s[A-Z][a-z]+",texter)
         for a in names:
                 firstLast = a.split()
                 if firstLast[0] in firstDic and firstLast[1] in surnameDic:
@@ -102,6 +102,13 @@ def makeDictWithCount(x):
                         countDict[element] = 1
         sorted_countDict = sorted(countDict.items(), key=operator.itemgetter(1), reverse=True)
         return sorted_countDict
+
+def linkssearch(answer):
+        links = []
+        for a in answer:
+                possibles = search(a)
+                links.append(possibles[1])
+        return links
 
 def read_urls(urls):
 	html_text = []
