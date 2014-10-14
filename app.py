@@ -4,8 +4,11 @@ import text
 
 app=Flask(__name__)
 
-
-app = Flask(__name__)
+l1 = ""
+l2 = ""
+l3 = ""
+l4 = ""
+l5 = ""
 
 @app.route("/",methods=["GET","POST"])
 def index():
@@ -26,34 +29,53 @@ def index():
                 answer = ""
                 if message == "who":
                     answer = text.whosearch(question)
-                    a1 = answer[1]
-                    a2 = answer[2]
-                    a3 = answer[3]
-                    a4 = answer[4]
-                    a5 = answer[5]
+                    a1 = answer[0]
+                    a2 = answer[1]
+                    a3 = answer[2]
+                    a4 = answer[3]
+                    a5 = answer[4]
                     links = text.linkssearch(answer)
-                    l1 = links[1]
-                    l2 = links[2]
-                    l3 = links[3]
-                    l4 = links[4]
-                    l5 = links[5]
+                    l1 = links[0]
+                    l2 = links[1]
+                    l3 = links[2]
+                    l4 = links[3]
+                    l5 = links[4]
                 elif message == "when":
                     answer = text.whensearch(question)
-                    a1 = answer[1]
-                    a2 = answer[2]
-                    a3 = answer[3]
-                    a4 = answer[4]
-                    a5 = answer[5]
-                    links = text.linksearch(answer)
-                    l1 = links[1]
-                    l2 = links[2]
-                    l3 = links[3]
-                    l4 = links[4]
-                    l5 = links[5]
+                    a1 = answer[0]
+                    a2 = answer[1]
+                    a3 = answer[2]
+                    a4 = answer[3]
+                    a5 = answer[4]
+                    links = text.linkssearch(answer)
+                    l1 = links[0]
+                    l2 = links[1]
+                    l3 = links[2]
+                    l4 = links[3]
+                    l5 = links[4]
                 return render_template("results.html", a1 = a1, a2 = a2, a3 = a3, a4 = a4, a5 = a5, l1 = l1, l2 = l2, l3 = l3, l4 = l4, l5 = l5)
 
 @app.route("/a1")
 def a1():
+    print l1
+    return redirect(l1)
+
+@app.route("/a2")
+def a2():
+    return redirect(l2)
+
+@app.route("/a3")
+def a3():
+    return redirect(l3)
+
+@app.route("/a4")
+def a4():
+    return redirect(l4)
+
+@app.route("/a5")
+def a5():
+    return redirect(l5)
+    
 
 if __name__=="__main__":
     app.debug = True

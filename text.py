@@ -35,7 +35,7 @@ def whosearch(question):
         text = read_urls(search(question))
         texter = ""
         for t in text:
-                texter += treturn ret
+                texter += t
         names = re.findall("[A-Z][a-z]+\s[A-Z][a-z]+", texter)
 
         firstNames = read1.split() #all first names via our database
@@ -73,8 +73,11 @@ def whosearch(question):
         
 
 def whensearch(question):
-        text = search(question)
-        dates = re.findall("[A-Z][a-z]+\s[0-9]+", text)
+        text = read_urls(search(question))
+        texter = ""
+        for t in text:
+                texter += t
+        dates = re.findall("[A-Z][a-z]+\s[0-9]+", texter)
         dates = [x for x in dates if check(x)]
         dateDict = makeDictWithCount(dates)
         it = iter(makeDictWithCount(dates))
